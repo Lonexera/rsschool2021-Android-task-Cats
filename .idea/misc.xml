@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/lolo/AndroidStudioProjects/training/rsschooltask5/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
+        <entry key="..\:/Users/lolo/AndroidStudioProjects/training/rsschooltask5/app/src/main/res/layout/cat_layout.xml" value="0.2046875" />
+        <entry key="..\:/Users/lolo/AndroidStudioProjects/training/rsschooltask5/app/src/main/res/layout/item_error.xml" value="0.2046875" />
+        <entry key="..\:/Users/lolo/AndroidStudioProjects/training/rsschooltask5/app/src/main/res/layout/item_progress.xml" value="0.2046875" />
         <entry key="..\:/Users/lolo/AndroidStudioProjects/training/rsschooltask5/app/src/main/res/layout/picture_layout.xml" value="0.2046875" />
       </map>
     </option>
