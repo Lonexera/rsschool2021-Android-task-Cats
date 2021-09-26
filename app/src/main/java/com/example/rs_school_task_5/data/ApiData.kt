@@ -3,14 +3,16 @@ package com.example.rs_school_task_5.data
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-
-@JsonClass(generateAdapter = true)
-data class ApiData(
-    @Json(name = "") val cats: List<Cat>
+data class ApiCat(
+    val breeds: List<Any>,
+    val categories: List<Category>,
+    val height: Int,
+    val id: String,
+    val url: String,
+    val width: Int
 )
 
-@JsonClass(generateAdapter = true)
-data class Cat(
-    @Json(name = "id") val id: String,
-    @Json(name = "url") val imageUrl: String
+data class Category(
+    val id: Int,
+    val name: String
 )
