@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rs_school_task_5.data.Cat
@@ -20,7 +19,6 @@ class CatAdapter : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
 
             override fun areContentsTheSame(oldItem: Cat, newItem: Cat): Boolean {
                 return oldItem == newItem
-
             }
         }
     }
@@ -36,7 +34,6 @@ class CatAdapter : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
         holder.bind(getItem(position))
     }
 }
-
 
 class CatViewHolder(private val binding: CatLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 

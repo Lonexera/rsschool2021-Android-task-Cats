@@ -12,12 +12,11 @@ import com.example.rs_school_task_5.databinding.ItemProgressBinding
 class CatLoaderStateAdapter : LoadStateAdapter<CatLoaderStateAdapter.ItemViewHolder>() {
 
     override fun getStateViewType(loadState: LoadState): Int {
-        return when(loadState) {
+        return when (loadState) {
             is LoadState.NotLoading -> error("Not supported")
             LoadState.Loading -> PROGRESS
             is LoadState.Error -> ERROR
         }
-
     }
 
     override fun onBindViewHolder(
@@ -31,7 +30,7 @@ class CatLoaderStateAdapter : LoadStateAdapter<CatLoaderStateAdapter.ItemViewHol
         parent: ViewGroup,
         loadState: LoadState
     ): CatLoaderStateAdapter.ItemViewHolder {
-        return when(loadState) {
+        return when (loadState) {
             LoadState.Loading -> ProgressViewHolder.invoke(LayoutInflater.from(parent.context), parent)
             is LoadState.Error -> ErrorViewHolder.invoke(LayoutInflater.from(parent.context), parent)
             is LoadState.NotLoading -> error("Not supported")
@@ -56,7 +55,6 @@ class CatLoaderStateAdapter : LoadStateAdapter<CatLoaderStateAdapter.ItemViewHol
             // DO nothing
         }
 
-
         companion object {
 
             operator fun invoke(
@@ -74,7 +72,6 @@ class CatLoaderStateAdapter : LoadStateAdapter<CatLoaderStateAdapter.ItemViewHol
             }
         }
     }
-
 
     class ErrorViewHolder internal constructor(
         private val binding: ItemErrorBinding
@@ -101,6 +98,5 @@ class CatLoaderStateAdapter : LoadStateAdapter<CatLoaderStateAdapter.ItemViewHol
                 )
             }
         }
-
     }
 }

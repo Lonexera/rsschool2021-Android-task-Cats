@@ -8,8 +8,6 @@ import androidx.paging.PagingSource
 import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.data.CatService
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import java.security.Provider
 
 class CatViewModel : ViewModel() {
 
@@ -23,14 +21,12 @@ class CatViewModel : ViewModel() {
         .flatMapLatest { pager -> pager.flow }
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
-
     private fun newPager(query: String): Pager<Int, Cat> {
         return Pager(PagingConfig(10, enablePlaceholders = false)) {
             newPagingSource?.invalidate()
             CatsPagingSource(CatService).also { newPagingSource = it }
         }
     }
-
 
     @Suppress("UNCHECKED CAST")
     class Factory() : ViewModelProvider.Factory {
@@ -39,6 +35,5 @@ class CatViewModel : ViewModel() {
             require(modelClass == CatViewModel::class.java)
             return CatViewModel() as T
         }
-
     }
 }

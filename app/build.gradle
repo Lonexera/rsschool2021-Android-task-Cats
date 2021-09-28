@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id "org.jlleitschuh.gradle.ktlint" version "10.0.0"
 }
 apply plugin: 'kotlin-kapt'
 
@@ -62,7 +63,7 @@ dependencies {
 
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'

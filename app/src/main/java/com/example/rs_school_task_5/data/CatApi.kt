@@ -1,6 +1,5 @@
 package com.example.rs_school_task_5.data
 
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -32,5 +31,4 @@ object CatService {
             catService.getListOfCats(page, pageSize)
         }
     }
-
 }
