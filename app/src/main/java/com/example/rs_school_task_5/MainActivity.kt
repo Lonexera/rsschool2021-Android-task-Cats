@@ -1,7 +1,6 @@
 package com.example.rs_school_task_5
 
 import android.content.ContentValues
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -10,8 +9,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -34,10 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val catsViewModel by viewModels<CatViewModel> { CatViewModel.Factory() }
     private val catAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CatAdapter { displayName, bitmap ->
-            if (writePermissionGranted)
-                lifecycleScope.launch { saveImageToGallery(displayName, bitmap) }
-            else
-                requestPermission()
+            lifecycleScope.launch { saveImageToGallery(displayName, bitmap) }
         }
     }
 
@@ -66,9 +60,6 @@ class MainActivity : AppCompatActivity() {
                 catAdapter.submitData(it)
             }
         }
-
-        // get permissions
-        checkForPermission()
     }
 
     override fun onRequestPermissionsResult(
@@ -81,8 +72,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == PermissionManager.LAST_PERMISSION_CODE) {
             if (grantResults.isNotEmpty()) {
                 PermissionManager.onRequestResult(permissions, grantResults)
-            }
-            else
+                writePermissionGranted = PermissionManager.checkIfPermissionIsGranted(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            } else
                 showPermissionDeniedToast()
         }
     }
@@ -93,10 +86,6 @@ class MainActivity : AppCompatActivity() {
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
         writePermissionGranted = hasWritePermission || minSdk29
-
-        if (!writePermissionGranted) {
-            requestPermission()
-        }
     }
 
     private fun requestPermission() {
@@ -112,32 +101,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun saveImageToGallery(displayName: String, image: Bitmap) {
-        withContext(Dispatchers.IO) {
-            val imageCollection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-                } else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
-            val contentValues = ContentValues().apply {
-                put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
-                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                put(MediaStore.Images.Media.WIDTH, image.width)
-                put(MediaStore.Images.Media.HEIGHT, image.height)
-            }
+        checkForPermission()
+        if (!writePermissionGranted)
+            requestPermission()
 
-            try {
-                contentResolver.insert(imageCollection, contentValues)?.also { uri ->
-                    contentResolver.openOutputStream(uri).use { outputStream ->
-                        if (!image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream))
-                            throw IOException("Couldn't save bitmap")
-                    }
-                } ?: throw IOException("Couldn't create MediaStore entry")
-                Log.i("SAVING IMAGE" ,"Image is saved successfully!")
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Log.e("SAVING IMAGE" ,"Failed to save image..")
+        if (writePermissionGranted) {
+            withContext(Dispatchers.IO) {
+                val imageCollection =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                    } else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
+                    put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    put(MediaStore.Images.Media.WIDTH, image.width)
+                    put(MediaStore.Images.Media.HEIGHT, image.height)
+                }
+
+                try {
+                    contentResolver.insert(imageCollection, contentValues)?.also { uri ->
+                        contentResolver.openOutputStream(uri).use { outputStream ->
+                            if (!image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream))
+                                throw IOException("Couldn't save bitmap")
+                        }
+                    } ?: throw IOException("Couldn't create MediaStore entry")
+                    Log.i("SAVING IMAGE", "Image is saved successfully!")
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Log.e("SAVING IMAGE", "Failed to save image..")
+                }
             }
         }
     }
-
 }
