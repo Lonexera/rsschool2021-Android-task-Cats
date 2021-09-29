@@ -1,5 +1,7 @@
 package com.example.rs_school_task_5.adapter
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -9,7 +11,9 @@ import com.bumptech.glide.Glide
 import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.databinding.CatLayoutBinding
 
-class CatAdapter : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
+class CatAdapter(
+    private val onClick: (displayName: String, bmp: Bitmap) -> Unit
+) : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
 
     companion object {
         private val itemComparator = object : DiffUtil.ItemCallback<Cat>() {
@@ -27,7 +31,7 @@ class CatAdapter : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = CatLayoutBinding.inflate(layoutInflater, parent, false)
 
-        return CatViewHolder(binding)
+        return CatViewHolder(binding, onClick)
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
@@ -35,9 +39,20 @@ class CatAdapter : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
     }
 }
 
-class CatViewHolder(private val binding: CatLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+class CatViewHolder(
+    private val binding: CatLayoutBinding,
+    private val onClick: (displayName: String, bmp: Bitmap) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(cat: Cat?) {
         Glide.with(binding.root).load(cat?.imageUrl).into(binding.catImage)
+
+        binding.catImage.setOnLongClickListener {
+            val bitmapDrawable = binding.catImage.drawable as BitmapDrawable
+            val catBitmap = bitmapDrawable.bitmap
+            val displayName = cat?.id ?: "Unknown name"
+            onClick(displayName, catBitmap)
+            true
+        }
     }
 }
