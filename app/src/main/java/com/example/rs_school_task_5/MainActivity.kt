@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -135,20 +136,12 @@ class MainActivity : AppCompatActivity() {
                             throw IOException("Couldn't save bitmap")
                     }
                 } ?: throw IOException("Couldn't create MediaStore entry")
-                showSuccessfulSavingToast()
+                Log.i("SAVING IMAGE" ,"Image is saved successfully!")
             } catch (e: IOException) {
                 e.printStackTrace()
-                showFailedSavingToast()
+                Log.e("SAVING IMAGE" ,"Failed to save image..")
             }
         }
     }
 
-    private fun showSuccessfulSavingToast() {
-        Toast.makeText(this, "Image is saved!", Toast.LENGTH_SHORT)
-            .show()
-    }
-    private fun showFailedSavingToast() {
-        Toast.makeText(this, "Failed to save image..", Toast.LENGTH_SHORT)
-            .show()
-    }
 }

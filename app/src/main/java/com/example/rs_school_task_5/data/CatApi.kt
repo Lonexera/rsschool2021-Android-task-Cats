@@ -13,7 +13,8 @@ interface CatApi {
     @GET("/v1/images/search?api_key=e36165e9-704b-486a-af2a-6f961c23d505")
     suspend fun getListOfCats(
         @Query("page") page: Int,
-        @Query("limit") limit: Int
+        @Query("limit") limit: Int,
+        @Query("mime_types") mimeTypes: String = "jpg"
     ): Response<List<ApiCat>>
 }
 
