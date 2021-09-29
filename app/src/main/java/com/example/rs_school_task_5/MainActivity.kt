@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var writePermissionGranted = false
-    private val PERMISSION_CODE = 676
 
     private val catsViewModel by viewModels<CatViewModel> { CatViewModel.Factory() }
     private val catAdapter by lazy(LazyThreadSafetyMode.NONE) {
@@ -79,10 +78,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.i("TAG", permissions[0])
-                writePermissionGranted = true
+        if (requestCode == PermissionManager.LAST_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty()) {
+                PermissionManager.onRequestResult(permissions, grantResults)
             }
             else
                 showPermissionDeniedToast()
@@ -91,10 +89,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkForPermission() {
         val minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-        val hasWritePermission = ContextCompat.checkSelfPermission(
-            this,
+        val hasWritePermission = PermissionManager.checkIfPermissionIsGranted(
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
+        )
         writePermissionGranted = hasWritePermission || minSdk29
 
         if (!writePermissionGranted) {
@@ -103,12 +100,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(
+        PermissionManager.requestPermission(
             this,
-            arrayOf(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            PERMISSION_CODE
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
     }
 
