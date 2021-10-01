@@ -3,10 +3,7 @@ package com.example.rs_school_task_5
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
+import androidx.paging.*
 import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.data.CatService
 import kotlinx.coroutines.flow.*
@@ -21,6 +18,7 @@ class CatViewModel : ViewModel() {
     val cats: StateFlow<PagingData<Cat>> = query
         .map(::newPager)
         .flatMapLatest { pager -> pager.flow }
+        .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
     private fun newPager(query: String): Pager<Int, Cat> {
