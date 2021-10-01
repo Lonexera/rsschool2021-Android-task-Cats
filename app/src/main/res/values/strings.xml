@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">rs-school-task-5</string>
+
+    <!-- Toolbar texts -->
+    <string name="list_toolbar_title">Cat images</string>
+    <string name="image_toolbar_title">Image</string>
+    <string name="toolbar_save_title">Save image</string>
+    <string name="toolbar_save_description">Press to save image with cat</string>
 </resources>

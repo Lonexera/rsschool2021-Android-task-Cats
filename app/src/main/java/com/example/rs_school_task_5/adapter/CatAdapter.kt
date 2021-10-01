@@ -1,7 +1,5 @@
 package com.example.rs_school_task_5.adapter
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -12,7 +10,7 @@ import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.databinding.CatLayoutBinding
 
 class CatAdapter(
-    private val onClick: (displayName: String, bmp: Bitmap) -> Unit
+    private val onClick: (cat: Cat) -> Unit
 ) : PagingDataAdapter<Cat, CatViewHolder>(itemComparator) {
 
     companion object {
@@ -41,18 +39,16 @@ class CatAdapter(
 
 class CatViewHolder(
     private val binding: CatLayoutBinding,
-    private val onClick: (displayName: String, bmp: Bitmap) -> Unit
+    private val onClick: (cat: Cat) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(cat: Cat?) {
+        // TODO show progress while image is loading
         Glide.with(binding.root).load(cat?.imageUrl).into(binding.catImage)
-
-        binding.catImage.setOnLongClickListener {
-            val bitmapDrawable = binding.catImage.drawable as BitmapDrawable
-            val catBitmap = bitmapDrawable.bitmap
-            val displayName = cat?.id ?: "Unknown name"
-            onClick(displayName, catBitmap)
-            true
+        if (cat != null) {
+            binding.catImage.setOnClickListener {
+                onClick(cat)
+            }
         }
     }
 }
