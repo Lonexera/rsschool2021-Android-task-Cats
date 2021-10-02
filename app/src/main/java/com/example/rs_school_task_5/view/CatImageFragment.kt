@@ -26,13 +26,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-// TODO save info for restore
 class CatImageFragment private constructor() : Fragment() {
 
     private var _binding: CatImageFragmentBinding? = null
     private val binding get() = _binding!!
 
     private var writePermissionGranted = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            requireArguments().putString(CAT_ID, savedInstanceState.getString(CAT_ID))
+            requireArguments().putString(IMAGE_URL, savedInstanceState.getString(IMAGE_URL))
+            requireArguments().putInt(IMAGE_WIDTH, savedInstanceState.getInt(IMAGE_WIDTH))
+            requireArguments().putInt(IMAGE_HEIGHT, savedInstanceState.getInt(IMAGE_HEIGHT))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,6 +89,15 @@ class CatImageFragment private constructor() : Fragment() {
             }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString(CAT_ID, requireArguments().getString(CAT_ID))
+        outState.putString(IMAGE_URL, requireArguments().getString(IMAGE_URL))
+        outState.putInt(IMAGE_WIDTH, requireArguments().getInt(IMAGE_WIDTH))
+        outState.putInt(IMAGE_HEIGHT, requireArguments().getInt(IMAGE_HEIGHT))
     }
 
     override fun onDestroy() {
