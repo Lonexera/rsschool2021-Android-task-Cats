@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.rs_school_task_5.FragmentListener
 import com.example.rs_school_task_5.PermissionManager
 import com.example.rs_school_task_5.R
+import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.databinding.CatImageFragmentBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,7 +50,11 @@ class CatImageFragment private constructor() : Fragment() {
 
         with(binding) {
             val catIdStr = arguments?.getString(CAT_ID) ?: return
-            catId.text = catIdStr
+
+            val imageWidth = arguments?.getInt(IMAGE_WIDTH) ?: return
+            val imageHeight = arguments?.getInt(IMAGE_HEIGHT) ?: return
+            imageResolution.text = getString(R.string.image_resolution_text, imageWidth, imageHeight)
+
             val imageUrl = arguments?.getString(IMAGE_URL) ?: return
             Glide.with(binding.root).load(imageUrl).into(catImage)
 
@@ -148,15 +153,19 @@ class CatImageFragment private constructor() : Fragment() {
     }
 
     companion object {
-        const val CAT_ID = "CAT ID"
-        const val IMAGE_URL = "IMAGE URL"
+        private const val CAT_ID = "CAT ID"
+        private const val IMAGE_URL = "IMAGE URL"
+        private const val IMAGE_WIDTH = "IMAGE WIDTH"
+        private const val IMAGE_HEIGHT = "IMAGE HEIGHT"
 
         @JvmStatic
-        fun newInstance(catId: String, imageUrl: String): CatImageFragment {
+        fun newInstance(cat: Cat): CatImageFragment {
             val fragment = CatImageFragment()
             val args = bundleOf()
-            args.putString(CAT_ID, catId)
-            args.putString(IMAGE_URL, imageUrl)
+            args.putString(CAT_ID, cat.id)
+            args.putString(IMAGE_URL, cat.imageUrl)
+            args.putInt(IMAGE_WIDTH, cat.imageWidth)
+            args.putInt(IMAGE_HEIGHT, cat.imageHeight)
             fragment.arguments = args
 
             return fragment

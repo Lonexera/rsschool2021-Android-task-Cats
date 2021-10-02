@@ -17,7 +17,6 @@ class CatsPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cat> {
-
         try {
             val page = params.key ?: INITIAL_PAGE_NUMBER
             val pageSize = params.loadSize.coerceAtMost(MAX_PAGE_SIZE)
@@ -27,7 +26,9 @@ class CatsPagingSource(
                 val cats = checkNotNull(response.body()).map {
                     Cat(
                         it.id,
-                        it.url
+                        it.url,
+                        it.width,
+                        it.height
                     )
                 }
                 val nextKey = if (cats.size < pageSize) null else page + 1

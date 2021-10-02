@@ -49,17 +49,13 @@ class MainActivity : AppCompatActivity(), FragmentListener {
     }
 
     override fun openImageFragment(cat: Cat) {
-        val imageFragment = CatImageFragment.newInstance(
-            cat.id,
-            cat.imageUrl
-        )
+        val imageFragment = CatImageFragment.newInstance(cat)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragmentContainer.id, imageFragment)
         transaction.addToBackStack("image")
         transaction.commit()
     }
 
-    // TODO fix backPressed
     override fun onBack() {
         if (supportFragmentManager.backStackEntryCount > 1)
             supportFragmentManager.popBackStack()

@@ -6,4 +6,7 @@
     <string name="image_toolbar_title">Image</string>
     <string name="toolbar_save_title">Save image</string>
     <string name="toolbar_save_description">Press to save image with cat</string>
+
+    <!-- Cat Image Fragment texts -->
+    <string name="image_resolution_text">%d x %d</string>
 </resources>
