@@ -7,6 +7,7 @@ import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.databinding.ActivityMainBinding
 import com.example.rs_school_task_5.view.CatImageFragment
 import com.example.rs_school_task_5.view.CatListFragment
+import com.example.rs_school_task_5.view.FragmentListener
 
 class MainActivity : AppCompatActivity(), FragmentListener {
 

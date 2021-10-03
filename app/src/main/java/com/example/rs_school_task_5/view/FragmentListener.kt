@@ -1,4 +1,4 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.view
 
 import com.example.rs_school_task_5.data.Cat
 
