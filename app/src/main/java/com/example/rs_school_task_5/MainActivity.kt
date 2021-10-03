@@ -51,6 +51,12 @@ class MainActivity : AppCompatActivity(), FragmentListener {
     override fun openImageFragment(cat: Cat) {
         val imageFragment = CatImageFragment.newInstance(cat)
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(
+            R.animator.flip_right_enter,
+            R.animator.flip_right_exit,
+            R.animator.flip_left_enter,
+            R.animator.flip_left_exit
+        )
         transaction.replace(binding.fragmentContainer.id, imageFragment)
         transaction.addToBackStack("image")
         transaction.commit()

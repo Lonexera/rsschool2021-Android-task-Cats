@@ -9,4 +9,9 @@
 
     <!-- Cat Image Fragment texts -->
     <string name="image_resolution_text">%d x %d</string>
+
+
+    <!-- Animation -->
+    <integer name="full_flip_duration">1000</integer>
+    <integer name="half_flip_duration">500</integer>
 </resources>
