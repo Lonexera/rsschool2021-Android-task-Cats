@@ -1,11 +1,9 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.rs_school_task_5.data.Cat
-import com.example.rs_school_task_5.data.CatService
 import kotlinx.coroutines.flow.*
 
 class CatViewModel : ViewModel() {

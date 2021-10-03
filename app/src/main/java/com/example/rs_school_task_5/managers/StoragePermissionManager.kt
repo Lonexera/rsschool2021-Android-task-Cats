@@ -1,4 +1,4 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.managers
 
 import android.app.Activity
 import android.os.Build

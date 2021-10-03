@@ -1,9 +1,7 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.rs_school_task_5.data.Cat
-import com.example.rs_school_task_5.data.CatService
 import retrofit2.HttpException
 
 class CatsPagingSource(

@@ -1,4 +1,4 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.managers
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -32,13 +32,13 @@ object PermissionManager {
         if (grantResults.isNotEmpty()) {
             grantResults.forEachIndexed { index, grantResult ->
                 Log.d("TAG", permissions[index])
-                if (this.permissions.containsKey(permissions[index])) {
-                    this.permissions.replace(
+                if (PermissionManager.permissions.containsKey(permissions[index])) {
+                    PermissionManager.permissions.replace(
                         permissions[index],
                         grantResult == PackageManager.PERMISSION_GRANTED
                     )
                 } else {
-                    this.permissions.put(
+                    PermissionManager.permissions.put(
                         permissions[index],
                         grantResult == PackageManager.PERMISSION_GRANTED
                     )

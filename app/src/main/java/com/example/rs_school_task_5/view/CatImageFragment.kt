@@ -13,6 +13,9 @@ import com.bumptech.glide.Glide
 import com.example.rs_school_task_5.*
 import com.example.rs_school_task_5.data.Cat
 import com.example.rs_school_task_5.databinding.CatImageFragmentBinding
+import com.example.rs_school_task_5.managers.ImageSaver
+import com.example.rs_school_task_5.managers.ImageSaverObserver
+import com.example.rs_school_task_5.managers.StoragePermissionManager
 import kotlinx.coroutines.launch
 
 class CatImageFragment private constructor() : Fragment(), ImageSaverObserver {

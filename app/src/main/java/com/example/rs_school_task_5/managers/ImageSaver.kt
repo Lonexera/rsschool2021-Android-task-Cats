@@ -1,4 +1,4 @@
-package com.example.rs_school_task_5
+package com.example.rs_school_task_5.managers
 
 import android.content.ContentResolver
 import android.content.ContentValues
@@ -17,7 +17,7 @@ object ImageSaver {
     private var contentResolver: ContentResolver? = null
 
     fun setContentResolver(contentResolver: ContentResolver) {
-        this.contentResolver = contentResolver
+        ImageSaver.contentResolver = contentResolver
     }
 
     fun createBitmap(imageView: ImageView): Bitmap {

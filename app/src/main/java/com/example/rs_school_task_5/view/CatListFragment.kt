@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.rs_school_task_5.CatViewModel
+import com.example.rs_school_task_5.data.CatViewModel
 import com.example.rs_school_task_5.adapter.CatAdapter
 import com.example.rs_school_task_5.adapter.CatLoaderStateAdapter
 import com.example.rs_school_task_5.databinding.ListFragmentBinding
