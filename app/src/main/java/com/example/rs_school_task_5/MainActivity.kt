@@ -67,6 +67,6 @@ class MainActivity : AppCompatActivity(), FragmentListener {
     override fun onBack() {
         if (supportFragmentManager.backStackEntryCount > 1)
             supportFragmentManager.popBackStack()
-        else onBackPressed()
+        else finish()
     }
 }
