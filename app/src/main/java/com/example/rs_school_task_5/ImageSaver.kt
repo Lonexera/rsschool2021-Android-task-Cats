@@ -26,7 +26,10 @@ object ImageSaver {
     }
 
     suspend fun saveImageToGallery(
-        displayName: String, bitmap: Bitmap, quality: Int = 100, observer: ImageSaverObserver
+        displayName: String,
+        bitmap: Bitmap,
+        quality: Int = 100,
+        observer: ImageSaverObserver
     ) {
         withContext(Dispatchers.IO) {
             val imageCollection =

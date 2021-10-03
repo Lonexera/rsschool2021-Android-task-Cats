@@ -1,6 +1,5 @@
 package com.example.rs_school_task_5.view
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +19,6 @@ class CatImageFragment private constructor() : Fragment(), ImageSaverObserver {
 
     private var _binding: CatImageFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private var writePermissionGranted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +49,8 @@ class CatImageFragment private constructor() : Fragment(), ImageSaverObserver {
 
             val imageWidth = arguments?.getInt(IMAGE_WIDTH) ?: return
             val imageHeight = arguments?.getInt(IMAGE_HEIGHT) ?: return
-            imageResolution.text = getString(R.string.image_resolution_text, imageWidth, imageHeight)
+            imageResolution.text =
+                getString(R.string.image_resolution_text, imageWidth, imageHeight)
 
             val imageUrl = arguments?.getString(IMAGE_URL) ?: return
             Glide.with(binding.root).load(imageUrl).into(catImage)
@@ -97,12 +95,11 @@ class CatImageFragment private constructor() : Fragment(), ImageSaverObserver {
 
     private suspend fun saveImageToGallery(displayName: String) {
         val contentResolver = activity?.contentResolver ?: return
+        val writePermissionGranted = StoragePermissionManager.checkForPermission()
 
-        checkForPermission()
         if (!writePermissionGranted)
-            requestPermission()
-
-        if (writePermissionGranted) {
+            StoragePermissionManager.requestPermission(requireActivity())
+        else {
             ImageSaver.setContentResolver(contentResolver)
             ImageSaver.saveImageToGallery(
                 displayName,
@@ -120,21 +117,6 @@ class CatImageFragment private constructor() : Fragment(), ImageSaverObserver {
     override fun onSavingFailure() {
         Toast.makeText(context, "Failed to save..", Toast.LENGTH_SHORT)
             .show()
-    }
-
-    private fun checkForPermission() {
-        val minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-        val hasWritePermission = PermissionManager.checkIfPermissionIsGranted(
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        writePermissionGranted = hasWritePermission || minSdk29
-    }
-
-    private fun requestPermission() {
-        PermissionManager.requestPermission(
-            requireActivity(),
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
     }
 
     companion object {
